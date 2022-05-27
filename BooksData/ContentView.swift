@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var searching = ""
     
+    let c = Const()
+    
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
@@ -21,45 +23,87 @@ struct ContentView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 50))
                             .shadow(color: .blue.opacity(0.02), radius: 5, x: 0, y: 5)
                             .shadow(color: .purple.opacity(0.1), radius: 5, x: 0, y: 5)
+                            .padding(.top, 150)
                         
-                        Text("New books")
-                            .font(.largeTitle)
+                        Text("NEW BOOKS")
+                            .font(.title2)
+                            .bold()
+                            .padding(.vertical, 20)
                         
                         ScrollView(.horizontal) {
                             HStack {
                                 ForEach(1..<10) { _ in
                                     Image(systemName: "book.closed.fill")
-                                        .font(.system(size: 80))
+                                        .font(.system(size: 100))
                                 }
                             }
                             
                         }
-                        .padding(20)
-                        Spacer()
+                        //.padding(20)
+                        
+                        Text("AUDIOBOOK")
+                            .font(.title2)
+                            .bold()
+                            .padding(.vertical, 20)
+                        
+                        
+                        ForEach(1..<4) { _ in
+                            HStack(spacing: 20) {
+                                Image(systemName: "book.closed.fill")
+                                    .font(.system(size: 80))
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Text("Title")
+                                        .font(.headline)
+                                        .foregroundColor(.blue.opacity(0.7))
+                                    Text("Author")
+                                        .font(.footnote)
+                                        .opacity(0.5)
+                                }
+                                Spacer()
+                            }
+                        }
                     }
                 }
-                .padding(.top, 150)
+                .padding([.horizontal], 20)
+                .background(c.backgroundGreen)
                 
-                HStack(alignment: .center) {
-                    Image(systemName: "line.3.horizontal")
-                        .font(.system(size: 25))
-                    
+                VStack {
+                    HStack(alignment: .center) {
+                        Image(systemName: "line.3.horizontal")
+                            .font(.system(size: 25))
+                            .foregroundColor(c.mainGreen)
+                        
+                        Spacer()
+                        Image(systemName: "bell")
+                            .font(.system(size: 25))
+                            .foregroundColor(c.mainGreen)
+                        
+                        // Avatar
+                        Image(systemName: "circle.fill")
+                            .font(.system(size: 25))
+                    }
+                    .padding(.horizontal, 30)
+                    .padding(.top, 60)
+                    .padding(.bottom, 30)
+                    .background(c.mainPink)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    //.shadow(color: Color(UIColor(red: 0.41, green: 0.19, blue: 0.43, alpha: 0.5)), radius: 5, x: 0, y: 5)
+                    //.shadow(color: .purple.opacity(0.21), radius: 10, x: 0, y: 5)
                     
                     Spacer()
-                    Image(systemName: "bell")
-                        .font(.system(size: 25))
                     
-                    // Avatar
-                    Image(systemName: "circle.fill")
-                        .font(.system(size: 25))
+                    
+                        
+                    HStack(alignment: .top) {
+                        Text("Hello Bottom HStack!")
+                            .padding(.bottom, 50)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 20)
+                    .background(c.mainPink)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    //.shadow(color: Color(UIColor(red: 0.41, green: 0.19, blue: 0.43, alpha: 0.5)), radius: 5, x: 0, y: 5)
                 }
-                .padding(.horizontal, 30)
-                .padding(.top, 60)
-                .padding(.bottom, 30)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 30))
-                .shadow(color: .blue.opacity(0.07), radius: 10, x: 0, y: 10)
-                .shadow(color: .purple.opacity(0.21), radius: 20, x: 0, y: 10)
                 
             }
             .navigationBarHidden(true)
