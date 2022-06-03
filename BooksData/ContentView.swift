@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var searching = ""
+    @StateObject var favorites = Favorites()
+    
+    let books: [Book] = Bundle.main.decode("books.json")
     
     let c = Const()
     
@@ -16,56 +19,62 @@ struct ContentView: View {
         NavigationView {
             ZStack(alignment: .top) {
                 VStack(alignment: .center, spacing: 20) {
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         TextField("Search for a book", text: $searching)
                             .padding(10)
                             .background(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 50))
-                            .shadow(color: .blue.opacity(0.02), radius: 5, x: 0, y: 5)
-                            .shadow(color: .purple.opacity(0.1), radius: 5, x: 0, y: 5)
+                            .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                             .padding(.top, 150)
                         
+                        
                         Text("NEW BOOKS")
-                            .font(.title2)
+                            .font(.title3)
                             .bold()
                             .padding(.vertical, 20)
+                            .foregroundColor(c.mainGreen)
                         
-                        ScrollView(.horizontal) {
+                        ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(1..<10) { _ in
                                     Image(systemName: "book.closed.fill")
                                         .font(.system(size: 100))
                                 }
                             }
-                            
                         }
-                        //.padding(20)
+                        
                         
                         Text("AUDIOBOOK")
-                            .font(.title2)
+                            .font(.title3)
+                            .foregroundColor(c.mainGreen)
                             .bold()
                             .padding(.vertical, 20)
                         
                         
-                        ForEach(1..<4) { _ in
+                        ForEach(books.prefix(3)) { book in
                             HStack(spacing: 20) {
-                                Image(systemName: "book.closed.fill")
-                                    .font(.system(size: 80))
-                                VStack(alignment: .leading, spacing: 10) {
-                                    Text("Title")
-                                        .font(.headline)
-                                        .foregroundColor(.blue.opacity(0.7))
-                                    Text("Author")
-                                        .font(.footnote)
-                                        .opacity(0.5)
+                                NavigationLink {
+                                    BookDetailView(book: book, favorites: favorites)
+                                } label: {
+                                    Image(systemName: "book.closed.fill")
+                                        .font(.system(size: 80))
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        Text(book.title)
+                                            .font(.headline)
+                                            .foregroundColor(c.mainGreen)
+                                        Text(book.author)
+                                            .font(.footnote)
+                                            .opacity(0.5)
+                                    }
                                 }
+                                .buttonStyle(PlainButtonStyle())
                                 Spacer()
                             }
                         }
                     }
                 }
                 .padding([.horizontal], 20)
-                .background(c.backgroundGreen)
+                .background(c.backgroundPink)
                 
                 VStack {
                     HStack(alignment: .center) {
@@ -87,24 +96,39 @@ struct ContentView: View {
                     .padding(.bottom, 30)
                     .background(c.mainPink)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
-                    //.shadow(color: Color(UIColor(red: 0.41, green: 0.19, blue: 0.43, alpha: 0.5)), radius: 5, x: 0, y: 5)
-                    //.shadow(color: .purple.opacity(0.21), radius: 10, x: 0, y: 5)
                     
                     Spacer()
                     
-                    
+                    HStack(alignment: .center) {
+                        Spacer()
+                        Image(systemName: "books.vertical")
+                            .font(.system(size: 20))
+                        Spacer()
+                        NavigationLink {
+                            FavoritesView(favorites: favorites)
+                        } label: {
+                            Image(systemName: "bookmark")
+                                .font(.system(size: 20))
+                        }
+
                         
-                    HStack(alignment: .top) {
-                        Text("Hello Bottom HStack!")
-                            .padding(.bottom, 50)
+                        Spacer()
+                        Image(systemName: "headphones")
+                            .font(.system(size: 20))
+                        Spacer()
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 20))
+                        Spacer()
                     }
+                    .foregroundColor(c.mainGreen)
+                    
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 20)
-                    .background(c.mainPink)
+                    .padding(.top, 15)
+                    .padding(.bottom, 40)
+                    .background(c.mainPink.opacity(0.5))
+                    .background(.ultraThickMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 30))
-                    //.shadow(color: Color(UIColor(red: 0.41, green: 0.19, blue: 0.43, alpha: 0.5)), radius: 5, x: 0, y: 5)
                 }
-                
             }
             .navigationBarHidden(true)
             .ignoresSafeArea(.all)
@@ -113,9 +137,9 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
 
