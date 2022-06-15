@@ -8,10 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+        
     @State private var searching = ""
-    @StateObject var favorites = Favorites()
+    @State private var books: [Book] = Bundle.main.decode("books.json")
     
-    let books: [Book] = Bundle.main.decode("books.json")
+    let rows = [
+        GridItem(.fixed(80)),
+        GridItem(.fixed(80)),
+        GridItem(.fixed(80))
+    ]
     
     let c = Const()
     
@@ -26,7 +31,6 @@ struct ContentView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 50))
                             .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                             .padding(.top, 150)
-                        
                         
                         Text("NEW BOOKS")
                             .font(.title3)
@@ -43,32 +47,35 @@ struct ContentView: View {
                             }
                         }
                         
-                        
                         Text("AUDIOBOOK")
                             .font(.title3)
                             .foregroundColor(c.mainGreen)
                             .bold()
                             .padding(.vertical, 20)
                         
-                        
-                        ForEach(books.prefix(3)) { book in
-                            HStack(spacing: 20) {
-                                NavigationLink {
-                                    BookDetailView(book: book, favorites: favorites)
-                                } label: {
-                                    Image(systemName: "book.closed.fill")
-                                        .font(.system(size: 80))
-                                    VStack(alignment: .leading, spacing: 10) {
-                                        Text(book.title)
-                                            .font(.headline)
-                                            .foregroundColor(c.mainGreen)
-                                        Text(book.author)
-                                            .font(.footnote)
-                                            .opacity(0.5)
+                        ScrollView(.horizontal) {
+                            LazyHGrid(rows: rows, alignment: .center) {
+                                ForEach(books.prefix(15)) { book in
+                                    HStack(spacing: 20) {
+                                        NavigationLink {
+                                            BookDetailView(book: book)
+                                        } label: {
+                                            Image(systemName: "book.closed.fill")
+                                                .font(.system(size: 80))
+                                            VStack(alignment: .leading, spacing: 10) {
+                                                Text(book.title)
+                                                    .font(.headline)
+                                                    .foregroundColor(c.mainGreen)
+                                                Text(book.author)
+                                                    .font(.footnote)
+                                                    .opacity(0.5)
+                                            }
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                        Spacer()
                                     }
+                                    .frame(width: 300, height: 300)
                                 }
-                                .buttonStyle(PlainButtonStyle())
-                                Spacer()
                             }
                         }
                     }
@@ -105,16 +112,20 @@ struct ContentView: View {
                             .font(.system(size: 20))
                         Spacer()
                         NavigationLink {
-                            FavoritesView(favorites: favorites)
+                            FavoritesView()
                         } label: {
                             Image(systemName: "bookmark")
                                 .font(.system(size: 20))
                         }
-
+                        
                         
                         Spacer()
-                        Image(systemName: "headphones")
-                            .font(.system(size: 20))
+                        NavigationLink {
+                            FavoritesView()
+                        } label: {
+                            Image(systemName: "headphones")
+                                .font(.system(size: 20))
+                        }
                         Spacer()
                         Image(systemName: "ellipsis")
                             .font(.system(size: 20))
@@ -133,13 +144,14 @@ struct ContentView: View {
             .navigationBarHidden(true)
             .ignoresSafeArea(.all)
         }
-        
     }
+    
+    
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
 

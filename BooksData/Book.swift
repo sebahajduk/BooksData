@@ -6,11 +6,18 @@
 //
 
 import Foundation
+import SwiftUI
 
-
-
-struct Book: Codable, Identifiable {
-    let id = UUID()
+struct Book: Codable, Identifiable, Equatable {
+    enum CodingKeys: CodingKey {
+        case author, country, language, link, pages, title, year
+    }
+    
+    @State private var isBought: Bool?
+    @State private var isFavorite: Bool?
+    
+    
+    var id = UUID()
     let author: String
     let country: String
     let language: String
@@ -18,4 +25,42 @@ struct Book: Codable, Identifiable {
     let pages: Int
     let title: String
     let year: Int
+    var description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+
+    func addToFavorite() {
+        self.isFavorite = true
+    }
+    
+    func addToBought() {
+        self.isBought = true
+    }
+    
+    func removeFavorite() {
+        self.isFavorite = false
+    }
+    
+    func checkFavorite() -> Bool {
+        if isFavorite ?? false {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func checkBought() -> Bool {
+        if isBought ?? false {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    static func ==(lhs: Book, rhs: Book) -> Bool {
+        if lhs.title == rhs.title && lhs.author == rhs.author {
+            return true
+        } else {
+            return false
+        }
+    }
+    
 }

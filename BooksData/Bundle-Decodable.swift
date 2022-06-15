@@ -13,16 +13,14 @@ extension Bundle {
             fatalError("Failed to locate \(file) in bundle.")
         }
         
-        guard let data = try? Data(contentsOf: url) else {
-            fatalError("Failed to load \(file) from bundle.")
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let loaded = try decoder.decode(T.self, from: data)
+            return loaded
+        } catch {
+            print(error)
+            return [] as! T
         }
-        
-        let decoder = JSONDecoder()
-        
-        guard let loaded = try? decoder.decode(T.self, from: data) else {
-            fatalError("Failed to decode \(file) from bundle.")
-        }
-        
-        return loaded
     }
 }
