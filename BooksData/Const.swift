@@ -13,5 +13,6 @@ class Const {
     let mainPink = Color(UIColor(red: 1.00, green: 0.87, blue: 0.82, alpha: 1.00))
     let mainGreen = Color(UIColor(red: 0.00, green: 0.43, blue: 0.47, alpha: 1.00))
     
-    let savePath = FileManager.documentDirectory.appendingPathComponent("SavedBook")
+    let favoritesPath = FileManager.documentDirectory.appendingPathComponent("FavoriteBooks")
+    let boughtPath = FileManager.documentDirectory.appendingPathComponent("BoughtBooks")
 }

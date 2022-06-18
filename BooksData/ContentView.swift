@@ -4,6 +4,10 @@
 //
 //  Created by Sebastian Hajduk on 26/05/2022.
 //
+//  Books API and covers made by benoitvallon
+//  https://github.com/benoitvallon/100-best-books
+//
+//  This app is created for learning purposes.
 
 import SwiftUI
 
@@ -11,6 +15,8 @@ struct ContentView: View {
         
     @State private var searching = ""
     @State private var books: [Book] = Bundle.main.decode("books.json")
+    
+    @StateObject var booksArrays = BooksArrays()
     
     let rows = [
         GridItem(.fixed(80)),
@@ -60,8 +66,11 @@ struct ContentView: View {
                                         NavigationLink {
                                             BookDetailView(book: book)
                                         } label: {
-                                            Image(systemName: "book.closed.fill")
-                                                .font(.system(size: 80))
+                                            Image(book.imageLink)
+                                                .resizable()
+                                                .frame(width: 80, height: 80)
+                                                .scaledToFill()
+                                                
                                             VStack(alignment: .leading, spacing: 10) {
                                                 Text(book.title)
                                                     .font(.headline)
@@ -144,6 +153,7 @@ struct ContentView: View {
             .navigationBarHidden(true)
             .ignoresSafeArea(.all)
         }
+        .environmentObject(booksArrays)
     }
     
     

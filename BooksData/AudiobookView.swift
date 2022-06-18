@@ -18,6 +18,7 @@ struct AudiobookView: View {
                     Image(systemName: "book.closed.fill")
                         .font(.system(size: 150))
                         .padding(.top, 100)
+                        .clipShape(Circle())
                     
                     Text(book.title)
                         .font(.largeTitle)

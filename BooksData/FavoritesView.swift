@@ -11,30 +11,23 @@ struct FavoritesView: View {
     
     let c = Const()
     
-    @State private var favorites = [Book]()
+    @EnvironmentObject var booksArrays: BooksArrays
         
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack {
                 Text("BOUGHT BOOKS")
-                ForEach(favorites.filter { $0.checkBought() }) { book in
+                ForEach(booksArrays.bought ?? []) { book in
                     boughtList(book: book)
                 }
                 
                 Text("FAVORITES BOOKS")
-                ForEach(favorites.filter{ $0.checkFavorite() }) { book in
+                ForEach(booksArrays.favorites ?? []) { book in
                     favoritesList(book: book)
                 }
             }
         }
-        .onAppear() {
-            do {
-                let data = try Data(contentsOf: c.savePath)
-                favorites = try JSONDecoder().decode([Book].self, from: data)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+        .padding()
     }
     
     func favoritesList(book: Book) -> some View {
@@ -42,8 +35,10 @@ struct FavoritesView: View {
             NavigationLink {
                 BookDetailView(book: book)
             } label: {
-                Image(systemName: "book.closed.fill")
-                    .font(.system(size: 80))
+                Image(book.imageLink)
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .scaledToFit()
                 VStack(alignment: .leading, spacing: 10) {
                     Text(book.title)
                         .font(.headline)
@@ -57,7 +52,7 @@ struct FavoritesView: View {
             Spacer()
             Button(action: {
                 withAnimation {
-                    removeBook(book: book)
+                    booksArrays.removeFavorite(book: book)
                 }
                 
             }, label: {
@@ -72,8 +67,10 @@ struct FavoritesView: View {
             NavigationLink {
                 BookDetailView(book: book)
             } label: {
-                Image(systemName: "book.closed.fill")
-                    .font(.system(size: 80))
+                Image(book.imageLink)
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .scaledToFit()
                 VStack(alignment: .leading, spacing: 10) {
                     Text(book.title)
                         .font(.headline)
@@ -85,13 +82,6 @@ struct FavoritesView: View {
             }
             .buttonStyle(PlainButtonStyle())
             Spacer()
-        }
-    }
-    
-    func removeBook(book: Book) {
-        if let index = favorites.firstIndex(of: book) {
-            favorites.remove(at: index)
-            //save()
         }
     }
 }
