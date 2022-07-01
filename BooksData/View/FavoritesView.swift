@@ -14,20 +14,25 @@ struct FavoritesView: View {
     @EnvironmentObject var booksArrays: BooksArrays
         
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack {
-                Text("BOUGHT BOOKS")
-                ForEach(booksArrays.bought ?? []) { book in
-                    boughtList(book: book)
-                }
-                
-                Text("FAVORITES BOOKS")
-                ForEach(booksArrays.favorites ?? []) { book in
-                    favoritesList(book: book)
+        NavigationView {
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    
+                    
+                    Text("BOUGHT BOOKS")
+                    ForEach(booksArrays.bought ?? []) { book in
+                        boughtList(book: book)
+                    }
+                    
+                    Text("FAVORITES BOOKS")
+                    ForEach(booksArrays.favorites ?? []) { book in
+                        favoritesList(book: book)
+                    }
                 }
             }
+            .padding()
+            .navigationBarHidden(true)
         }
-        .padding()
     }
     
     func favoritesList(book: Book) -> some View {
@@ -82,6 +87,15 @@ struct FavoritesView: View {
             }
             .buttonStyle(PlainButtonStyle())
             Spacer()
+            Button(action: {
+                withAnimation {
+                    booksArrays.removeBought(book: book)
+                }
+                
+            }, label: {
+                Image(systemName: "x.circle.fill")
+            })
+            .padding(.horizontal, 20)
         }
     }
 }

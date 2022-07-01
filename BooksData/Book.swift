@@ -49,6 +49,13 @@ class BooksArrays: ObservableObject {
             save()
         }
     }
+    
+    func removeBought(book: Book) {
+        if let index = bought?.firstIndex(of: book) {
+            bought?.remove(at: index)
+            save()
+        }
+    }
 
     func checkFavorite(book: Book) -> Bool {
         if favorites != nil {

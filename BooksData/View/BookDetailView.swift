@@ -15,14 +15,16 @@ struct BookDetailView: View {
     
     @State private var disabledFavoriteButton = false
     
+    @State private var selection: String = "home"
+    @State private var tabSelection: TabBarItem = .profile
     
     var body: some View {
+        
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 5) {
                     ZStack {
                         ProgressView()
-                            
                         
                         Image(book.imageLink)
                             .resizable()
@@ -79,7 +81,7 @@ struct BookDetailView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.top, 15)
-                .padding(.bottom, 40)
+                .padding(.bottom, 80)
                 .background(c.mainPink.opacity(0.5))
                 .background(.ultraThickMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
@@ -87,6 +89,7 @@ struct BookDetailView: View {
         }
         .background(c.backgroundPink)
         .ignoresSafeArea(.all)
+    
     }
     
     init(book: Book) {

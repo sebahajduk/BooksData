@@ -82,14 +82,8 @@
 			isa = PBXGroup;
 			children = (
 				6021EDED283FF6DC0050A809 /* BooksDataApp.swift */,
-				6021EDEF283FF6DC0050A809 /* ContentView.swift */,
-				6040B362286F546300C62742 /* HomeView.swift */,
-				6040B360286F4DCA00C62742 /* NewBooksListView.swift */,
-				6040B35E286F4CDD00C62742 /* AudiobookListView.swift */,
+				6040B36F286F98DF00C62742 /* View */,
 				60C9F5EC284BBA6100FB09A3 /* FileManager.swift */,
-				602A78A9284A6B2300048584 /* AudiobookView.swift */,
-				602A78A72848FC9700048584 /* FavoritesView.swift */,
-				602F7CCE2846816C00B2B742 /* BookDetailView.swift */,
 				602A789B2848F0ED00048584 /* Book.swift */,
 				602A789D2848F23100048584 /* Bundle-Decodable.swift */,
 				6021EDFB2840D1DD0050A809 /* Const.swift */,
@@ -120,6 +114,20 @@
 			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
+		6040B36F286F98DF00C62742 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6021EDEF283FF6DC0050A809 /* ContentView.swift */,
+				6040B360286F4DCA00C62742 /* NewBooksListView.swift */,
+				6040B35E286F4CDD00C62742 /* AudiobookListView.swift */,
+				602A78A9284A6B2300048584 /* AudiobookView.swift */,
+				6040B362286F546300C62742 /* HomeView.swift */,
+				602F7CCE2846816C00B2B742 /* BookDetailView.swift */,
+				602A78A72848FC9700048584 /* FavoritesView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -136,6 +144,8 @@
 			dependencies = (
 			);
 			name = BooksData;
+			packageProductDependencies = (
+			);
 			productName = BooksData;
 			productReference = 6021EDEA283FF6DC0050A809 /* BooksData.app */;
 			productType = "com.apple.product-type.application";
@@ -164,6 +174,8 @@
 				Base,
 			);
 			mainGroup = 6021EDE1283FF6DC0050A809;
+			packageReferences = (
+			);
 			productRefGroup = 6021EDEB283FF6DC0050A809 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

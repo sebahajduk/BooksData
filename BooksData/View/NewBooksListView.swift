@@ -35,6 +35,7 @@ struct NewBooksListView: View {
             .font(.title3)
             .bold()
             .padding(.vertical, 20)
+            .padding(.bottom, 10)
             .foregroundColor(c.mainGreen)
         
         ScrollView(.horizontal, showsIndicators: false) {
@@ -46,6 +47,8 @@ struct NewBooksListView: View {
                             .frame(width: 100, height: 160)
                             .scaledToFit()
                             .cornerRadius(10, corners: [.topLeft, .bottomRight])
+                            .padding(5)
+                            .shadow(color: .black.opacity(0.3), radius: 5, x: 3, y: 3)
                         
                         Text(book.title)
                             .font(.subheadline)
@@ -55,6 +58,7 @@ struct NewBooksListView: View {
                             .opacity(0.5)
                             .frame(maxWidth: 100)
                     }
+                    
                     
                 }
             }

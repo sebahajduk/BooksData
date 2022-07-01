@@ -17,6 +17,8 @@ struct ContentView: View {
     @State private var selection: String = "home"
     @State private var tabSelection: TabBarItem = .house
     
+    @State var tabBarOpacity: Double = 1
+    
     var body: some View {
         CustomTabBarContainerView(selection: $tabSelection) {
             HomeView()
@@ -26,12 +28,13 @@ struct ContentView: View {
                 .tabBarItem(tab: .favorite, selection: $tabSelection)
             
             HomeView()
-                .tabBarItem(tab: .house, selection: $tabSelection)
+                .tabBarItem(tab: .profile, selection: $tabSelection)
             
-            FavoritesView()
-                .tabBarItem(tab: .favorite, selection: $tabSelection)
         }
         .environmentObject(booksArrays)
+        .opacity(tabBarOpacity)
+        .onAppear{ tabBarOpacity = 1 }
+        .onDisappear { tabBarOpacity = 0 }
     
     }
 }
