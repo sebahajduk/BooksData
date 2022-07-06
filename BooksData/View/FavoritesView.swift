@@ -12,15 +12,15 @@ struct FavoritesView: View {
     let c = Const()
     
     @EnvironmentObject var booksArrays: BooksArrays
+    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
         
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 VStack {
                     
-                    
                     Text("BOUGHT BOOKS")
-                    ForEach(booksArrays.bought ?? []) { book in
+                    ForEach(firebaseDataManager.boughtBooks.count > 0 ? firebaseDataManager.boughtBooks : []) { book in
                         boughtList(book: book)
                     }
                     

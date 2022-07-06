@@ -31,6 +31,7 @@ struct NewBooksListView: View {
     @State private var books: [Book] = Bundle.main.decode("books.json")
     
     var body: some View {
+        
         Text("NEW BOOKS")
             .font(.title3)
             .bold()

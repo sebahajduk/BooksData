@@ -92,7 +92,7 @@ class BooksArrays: ObservableObject {
     }
 }
 
-class Book: Codable, Identifiable, Equatable, ObservableObject {
+class Book: Codable, Identifiable, Equatable {
     enum CodingKeys: CodingKey {
         case author, country, imageLink, language, link, pages, title, year
     }

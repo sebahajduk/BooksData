@@ -12,7 +12,7 @@ struct BookDetailView: View {
     let c = Const()
     
     @EnvironmentObject var booksArrays: BooksArrays
-    
+    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
     @State private var disabledFavoriteButton = false
     
     @State private var selection: String = "home"
@@ -62,7 +62,7 @@ struct BookDetailView: View {
                 HStack(spacing: 20) {
                     
                     Button("Add to favorites") {
-                        booksArrays.addToFavorite(book: book)
+                        firebaseDataManager.userBoughtBook(book: book)
                     }
                     .frame(width: 150, height: 50)
                     .foregroundColor(booksArrays.checkFavorite(book: book) ? c.mainGreen.opacity(0.3) : c.mainGreen)

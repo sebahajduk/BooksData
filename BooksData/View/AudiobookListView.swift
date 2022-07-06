@@ -25,7 +25,7 @@ struct AudiobookListView: View {
                 .foregroundColor(c.mainGreen)
                 .bold()
             
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 LazyHGrid(rows: rows, alignment: .center) {
                     ForEach(books.prefix(15)) { book in
                         HStack(spacing: 20) {
