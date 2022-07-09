@@ -197,6 +197,7 @@ extension FirebaseDataManager {
                 if let error = error {
                     print("There was an error downloading a photo: \(error)")
                     self.image = nil
+                    self.myImage = Image(systemName: "camera")
                 } else {
                     self.image = UIImage(data: data!)
                     guard let image = self.image else { return }

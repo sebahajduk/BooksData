@@ -16,6 +16,7 @@ struct CreateAccountView: View {
     @State private var password = ""
     @State private var repeatPassword = ""
     
+    
     var body: some View {
         VStack {
             Image("logo")
@@ -77,7 +78,7 @@ struct CreateAccountView: View {
     }
     
     func disableSignUpButton() -> Bool {
-        if email.count < 5 || password.count < 5 || password != repeatPassword {
+        if email.count < 5 || password.count < 6 || password != repeatPassword {
             return true
         } else {
             return false
