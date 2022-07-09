@@ -11,38 +11,67 @@ struct FavoritesView: View {
     
     let c = Const()
     
-    @EnvironmentObject var booksArrays: BooksArrays
     @EnvironmentObject var firebaseDataManager: FirebaseDataManager
-        
+    
+    @State var selection = "Bought"
+    
     var body: some View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 VStack {
+                    CustomPicker(selection: $selection, picker1: "Bought", picker2: "Favorites")
                     
-                    Text("BOUGHT BOOKS")
-                    ForEach(firebaseDataManager.boughtBooks.count > 0 ? firebaseDataManager.boughtBooks : []) { book in
-                        boughtList(book: book)
+                    switch selection {
+                    case "Bought":
+                        Text("BOUGHT BOOKS")
+                            .font(.title3)
+                            .bold()
+                            .padding(.vertical, 20)
+                            .padding(.bottom, 10)
+                            .foregroundColor(c.mainGreen)
+                        
+                        ForEach(firebaseDataManager.boughtBooks.count > 0 ? firebaseDataManager.boughtBooks : []) { book in
+                            boughtList(book: book)
+                        }
+                    case "Favorites":
+                        Text("FAVORITES BOOKS")
+                            .font(.title3)
+                            .bold()
+                            .padding(.vertical, 20)
+                            .padding(.bottom, 10)
+                            .foregroundColor(c.mainGreen)
+                        
+                        ForEach(firebaseDataManager.favoriteBooks.count > 0 ? firebaseDataManager.favoriteBooks : []) { book in
+                            favoritesList(book: book)
+                        }
+                    default:
+                        Text("")
                     }
                     
-                    Text("FAVORITES BOOKS")
-                    ForEach(booksArrays.favorites ?? []) { book in
-                        favoritesList(book: book)
-                    }
                 }
             }
             .padding()
+            .background(c.backgroundPink)
             .navigationBarHidden(true)
         }
     }
-    
+}
+
+struct FavoritesView_Previews: PreviewProvider {
+    static var previews: some View {
+        FavoritesView()
+    }
+}
+
+extension FavoritesView {
     func favoritesList(book: Book) -> some View {
         HStack(spacing: 20) {
             NavigationLink {
-                BookDetailView(book: book)
+                BookDetailView(book: book, isAudiobook: "Book")
             } label: {
                 Image(book.imageLink)
                     .resizable()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 75, height: 120)
                     .scaledToFit()
                 VStack(alignment: .leading, spacing: 10) {
                     Text(book.title)
@@ -57,7 +86,7 @@ struct FavoritesView: View {
             Spacer()
             Button(action: {
                 withAnimation {
-                    booksArrays.removeFavorite(book: book)
+                    firebaseDataManager.deleteFavBook(book: book)
                 }
                 
             }, label: {
@@ -70,11 +99,11 @@ struct FavoritesView: View {
     func boughtList(book: Book) -> some View {
         HStack(spacing: 20) {
             NavigationLink {
-                BookDetailView(book: book)
+                BookDetailView(book: book, isAudiobook: "Book")
             } label: {
                 Image(book.imageLink)
                     .resizable()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 75, height: 120)
                     .scaledToFit()
                 VStack(alignment: .leading, spacing: 10) {
                     Text(book.title)
@@ -89,7 +118,7 @@ struct FavoritesView: View {
             Spacer()
             Button(action: {
                 withAnimation {
-                    booksArrays.removeBought(book: book)
+                    firebaseDataManager.deleteBoughtBook(book: book)
                 }
                 
             }, label: {
@@ -97,11 +126,5 @@ struct FavoritesView: View {
             })
             .padding(.horizontal, 20)
         }
-    }
-}
-
-struct FavoritesView_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoritesView()
     }
 }

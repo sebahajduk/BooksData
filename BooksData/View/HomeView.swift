@@ -10,10 +10,9 @@ import SwiftUI
 struct HomeView: View {
     
     @State private var searching = ""
-    @State private var books: [Book] = Bundle.main.decode("books.json")
+    @State private var showSearching = false
     
     let c = Const()
-    @State private var logoOpacity = 0.0
     
     var body: some View {
         NavigationView {
@@ -24,7 +23,6 @@ struct HomeView: View {
                             .resizable()
                             .frame(width: 100, height: 100)
                             .scaledToFit()
-                            .animation(.linear, value: logoOpacity)
                       
                         
                         TextField("Search for a book", text: $searching)
@@ -33,6 +31,13 @@ struct HomeView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 50))
                             .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                             .padding(.top, 20)
+                            .onTapGesture {
+                                showSearching.toggle()
+                            }
+                            .onChange(of: searching) { newValue in
+                                showSearching = true
+                            }
+                            
                         
                         NewBooksListView()
                         Divider()
@@ -46,6 +51,12 @@ struct HomeView: View {
                 .background(c.backgroundPink)
             }
             .navigationBarHidden(true)
+            .sheet(isPresented: $showSearching) {
+                SearchView()
+                    .onAppear {
+                        searching = ""
+                    }
+            }
         }
 
     }

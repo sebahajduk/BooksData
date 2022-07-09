@@ -30,7 +30,7 @@ struct AudiobookListView: View {
                     ForEach(books.prefix(15)) { book in
                         HStack(spacing: 20) {
                             NavigationLink {
-                                BookDetailView(book: book)
+                                BookDetailView(book: book, isAudiobook: "Audiobook")
                             } label: {
                                 Image(book.imageLink)
                                     .resizable()

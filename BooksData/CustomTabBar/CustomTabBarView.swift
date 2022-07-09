@@ -76,17 +76,9 @@ extension CustomTabBarView {
             Text(tab.title)
                 .font(.system(size: 10, weight: .semibold, design: .rounded))
         }
-        .foregroundColor(selection == tab ? c.mainGreen : Color.gray)
+        .foregroundColor(selection == tab ? c.mainGreen : Color.gray.opacity(0.7))
         .padding(.vertical, 8)
         .frame(maxWidth: .infinity)
-        .background {
-            ZStack {
-                if selection == tab {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(c.mainPink)
-                }
-            }
-        }
         .cornerRadius(10)
         .contentShape(Rectangle())
     }

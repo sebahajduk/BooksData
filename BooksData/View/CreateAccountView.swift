@@ -11,6 +11,7 @@ struct CreateAccountView: View {
     let c = Const()
     @EnvironmentObject var firebaseDataManager: FirebaseDataManager
     
+    @State private var name = ""
     @State private var email = ""
     @State private var password = ""
     @State private var repeatPassword = ""
@@ -21,6 +22,14 @@ struct CreateAccountView: View {
                 .resizable()
                 .frame(width: 200, height: 200)
             Spacer()
+            
+            TextField("Name", text: $name)
+                .padding(10)
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 50))
+                .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
+                .padding(.top, 20)
+            
             TextField("Login", text: $email)
                 .padding(10)
                 .background(.white)
@@ -28,14 +37,14 @@ struct CreateAccountView: View {
                 .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                 .padding(.top, 20)
             
-            TextField("Password", text: $password)
+            SecureField("Password", text: $password)
                 .padding(10)
                 .background(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 50))
                 .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                 .padding(.top, 20)
             
-            TextField("Repeat password", text: $repeatPassword)
+            SecureField("Repeat password", text: $repeatPassword)
                 .padding(10)
                 .background(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 50))
@@ -46,7 +55,7 @@ struct CreateAccountView: View {
             HStack() {
                 Spacer()
                 Button {
-                    firebaseDataManager.createAccount(email: email, password: password)
+                    firebaseDataManager.createAccount(email: email, password: password, name: name)
                 } label: {
                     Text("SIGN UP")
                         .padding(8)
