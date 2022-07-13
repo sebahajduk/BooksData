@@ -15,4 +15,6 @@ class Const {
     
     let favoritesPath = FileManager.documentDirectory.appendingPathComponent("FavoriteBooks")
     let boughtPath = FileManager.documentDirectory.appendingPathComponent("BoughtBooks")
+    
+    let books: [Book] = Bundle.main.decode("books.json")
 }

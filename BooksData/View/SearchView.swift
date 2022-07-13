@@ -9,10 +9,7 @@ import SwiftUI
 
 struct SearchView: View {
     let c = Const()
-    
     @State private var searchText = ""
-    
-    @State private var books: [Book] = Bundle.main.decode("books.json")
     
     var body: some View {
         NavigationView {
@@ -29,20 +26,25 @@ struct SearchView: View {
                         .padding()
                 ScrollView {
                     VStack(alignment: .leading) {
-                    ForEach(searchResults, id: \.id) { book in
+                        ForEach(searchResults, id: \.id) { book in
                         NavigationLink(destination: BookDetailView(book: book, isAudiobook: "Book")) {
                             HStack{
                                 Image(book.imageLink)
                                     .resizable()
                                     .frame(width: 75, height: 120)
                                     .scaledToFit()
+                                    .accessibility(hidden: true)
+                                
                                 VStack(alignment: .leading, spacing: 10) {
                                     Text(book.title)
                                         .font(.headline)
                                         .foregroundColor(c.mainGreen)
+                                        .accessibilityLabel(book.title)
+                                    
                                     Text(book.author)
                                         .font(.footnote)
                                         .opacity(0.5)
+                                        .accessibilityHint(book.author)
                                 }
                                 Spacer()
                                 }
@@ -62,9 +64,9 @@ struct SearchView: View {
         
     var searchResults: [Book] {
         if searchText.isEmpty {
-            return books
+            return c.books
         } else {
-            return books.filter { $0.title.contains(searchText) || $0.author.contains(searchText)}
+            return c.books.filter { $0.title.contains(searchText) || $0.author.contains(searchText)}
         }
     }
         

@@ -20,6 +20,7 @@ struct FavoritesView: View {
             ScrollView(showsIndicators: false) {
                 VStack {
                     CustomPicker(selection: $selection, picker1: "Bought", picker2: "Favorites")
+                        .accessibilityAddTraits(.isButton)
                     
                     switch selection {
                     case "Bought":
@@ -73,6 +74,8 @@ extension FavoritesView {
                     .resizable()
                     .frame(width: 75, height: 120)
                     .scaledToFit()
+                    .accessibilityElement()
+                    
                 VStack(alignment: .leading, spacing: 10) {
                     Text(book.title)
                         .font(.headline)
@@ -81,6 +84,8 @@ extension FavoritesView {
                         .font(.footnote)
                         .opacity(0.5)
                 }
+                .accessibilityLabel("\(book.title) wrote by \(book.author)")
+                .accessibilityAddTraits(.isButton)
             }
             .buttonStyle(PlainButtonStyle())
             Spacer()
@@ -91,6 +96,8 @@ extension FavoritesView {
                 
             }, label: {
                 Image(systemName: "x.circle.fill")
+                    .accessibilityLabel("Delete")
+                    .accessibilityHint("Delete book.")
             })
             .padding(.horizontal, 20)
         }
@@ -113,18 +120,13 @@ extension FavoritesView {
                         .font(.footnote)
                         .opacity(0.5)
                 }
+                .accessibilityLabel("\(book.title) wrote by \(book.author)")
+                .accessibilityAddTraits(.isButton)
+
+                
             }
             .buttonStyle(PlainButtonStyle())
             Spacer()
-            Button(action: {
-                withAnimation {
-                    firebaseDataManager.deleteBoughtBook(book: book)
-                }
-                
-            }, label: {
-                Image(systemName: "x.circle.fill")
-            })
-            .padding(.horizontal, 20)
         }
     }
 }

@@ -23,6 +23,9 @@ struct BookDetailView: View {
                 VStack(spacing: 5) {
                     CustomPicker(selection: $isAudiobook, picker1: "Book", picker2: "Audiobook")
                         .padding(.top, 100)
+                        .accessibilityLabel(isAudiobook)
+                        .accessibilityHint("You can change book format.")
+                        .accessibilityAddTraits(.isButton)
                     
                     ZStack {
                         
@@ -53,17 +56,21 @@ struct BookDetailView: View {
                         
                     }
                     .padding(.top, 20)
+                    .accessibilityElement()
                     
+                    Group {
+                        Text(book.title)
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundColor(c.mainGreen)
+                            .padding(.top, 20)
+                        
+                        Text(book.author)
+                            .font(.headline)
+                            .opacity(0.5)
+                    }
+                    .accessibilityLabel("\(book.title) wrote by \(book.author)")
                     
-                    Text(book.title)
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(c.mainGreen)
-                        .padding(.top, 20)
-                    
-                    Text(book.author)
-                        .font(.headline)
-                        .opacity(0.5)
                         
                     HStack(spacing: 20) {
                         
@@ -100,6 +107,7 @@ struct BookDetailView: View {
                     
                     Text("\(book.description)")
                         .opacity(0.7)
+                    
                     Spacer()
                 }
             }

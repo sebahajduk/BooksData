@@ -23,6 +23,7 @@ struct HomeView: View {
                             .resizable()
                             .frame(width: 100, height: 100)
                             .scaledToFit()
+                            .accessibilityElement()
                       
                         
                         TextField("Search for a book", text: $searching)

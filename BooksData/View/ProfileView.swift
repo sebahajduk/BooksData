@@ -29,13 +29,18 @@ struct ProfileView: View {
                     
                 }
                 .padding(.top, 50)
+                .accessibilityElement()
+                .accessibilityLabel("Your photo")
                 
-                
+                Group {
                 Text(firebaseDataManager.user.name ?? "Unknown name")
                     .font(.headline)
                 Text(verbatim: firebaseDataManager.user.email!)
                     .font(.footnote)
                     .opacity(0.7)
+                }
+                .accessibilityElement()
+                .accessibilityLabel("Name \(firebaseDataManager.user.name ?? "Unknown name"), email \(firebaseDataManager.user.email!)")
                 
                 Divider()
                     .padding()
@@ -56,6 +61,7 @@ struct ProfileView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .padding(.horizontal)
                         .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
+                        .accessibilityAddTraits(.isButton)
                 }
                 
                 

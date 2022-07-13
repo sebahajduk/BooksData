@@ -11,10 +11,7 @@ struct EditProfileView: View {
     let c = Const()
     @EnvironmentObject var firebaseDataManager: FirebaseDataManager
     @State private var name: String
-    //    @State private var photoURL: String
     @State private var bio: String
-    
-    
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @State private var image: Image?
@@ -44,14 +41,18 @@ struct EditProfileView: View {
                 .onTapGesture {
                     showingImagePicker = true
                 }
+                .accessibilityElement()
+                .accessibilityLabel("Edit your photo")
+                .accessibilityAddTraits(.isButton)
+                
                 Spacer()
                 
                 Group {
-                    
                     HStack{
                         Text("Name:")
                             .font(.subheadline)
                             .foregroundColor(c.mainGreen)
+                            .accessibilityLabel("Edit your name")
                         Spacer()
                     }
                     
@@ -65,6 +66,7 @@ struct EditProfileView: View {
                         Text("About me:")
                             .font(.subheadline)
                             .foregroundColor(c.mainGreen)
+                            .accessibilityLabel("Edit about me")
                         Spacer()
                     }
                     

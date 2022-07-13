@@ -15,8 +15,6 @@ struct AudiobookListView: View {
         GridItem(.fixed(80))
     ]
     
-    @State private var books: [Book] = Bundle.main.decode("books.json")
-    
     var body: some View {
         
         VStack(spacing: 30) {
@@ -24,10 +22,11 @@ struct AudiobookListView: View {
                 .font(.title3)
                 .foregroundColor(c.mainGreen)
                 .bold()
+                .accessibilityLabel("List of audiobooks.")
             
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHGrid(rows: rows, alignment: .center) {
-                    ForEach(books.prefix(15)) { book in
+                    ForEach(c.books.prefix(15)) { book in
                         HStack(spacing: 20) {
                             NavigationLink {
                                 BookDetailView(book: book, isAudiobook: "Audiobook")
@@ -36,6 +35,7 @@ struct AudiobookListView: View {
                                     .resizable()
                                     .frame(width: 80, height: 80)
                                     .scaledToFill()
+                                    .accessibilityHidden(true)
                                     
                                 VStack(alignment: .leading, spacing: 10) {
                                     Text(book.title)
@@ -45,8 +45,14 @@ struct AudiobookListView: View {
                                         .font(.footnote)
                                         .opacity(0.5)
                                 }
+                                .accessibilityElement(children: .ignore)
+                                .accessibilityLabel("\(book.title) wrote by \(book.author)")
                             }
                             .buttonStyle(PlainButtonStyle())
+                            .accessibilityAddTraits(.isButton)
+                            
+                            
+                            
                             Spacer()
                         }
                         .frame(width: 300, height: 260)

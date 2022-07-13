@@ -27,7 +27,6 @@
 		605155C62858EE4B00A9ED37 /* books.json in Resources */ = {isa = PBXBuildFile; fileRef = 605155C52858EE4B00A9ED37 /* books.json */; };
 		607534492875DF62000FDBF8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607534482875DF62000FDBF8 /* User.swift */; };
 		6075344C28774B5B000FDBF8 /* CustomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075344B28774B5B000FDBF8 /* CustomPicker.swift */; };
-		6075344E287892DC000FDBF8 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075344D287892DB000FDBF8 /* ToDo.swift */; };
 		607534502878943D000FDBF8 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6075344F2878943D000FDBF8 /* EditProfileView.swift */; };
 		607534522878A2AB000FDBF8 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607534512878A2AB000FDBF8 /* ImagePicker.swift */; };
 		6075345C2878ACFE000FDBF8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6075345B2878ACFE000FDBF8 /* FirebaseAuth */; };
@@ -65,7 +64,6 @@
 		605155C52858EE4B00A9ED37 /* books.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = books.json; sourceTree = "<group>"; };
 		607534482875DF62000FDBF8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6075344B28774B5B000FDBF8 /* CustomPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPicker.swift; sourceTree = "<group>"; };
-		6075344D287892DB000FDBF8 /* ToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
 		6075344F2878943D000FDBF8 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		607534512878A2AB000FDBF8 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		6097CB572879DC5C00B1839C /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
@@ -112,8 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				6021EDED283FF6DC0050A809 /* BooksDataApp.swift */,
-				6075344D287892DB000FDBF8 /* ToDo.swift */,
-				6075344F2878943D000FDBF8 /* EditProfileView.swift */,
 				6097CB592879DC6300B1839C /* ViewModel */,
 				6040B36F286F98DF00C62742 /* View */,
 				60B9A4EB287052DF00ADE68B /* Model */,
@@ -155,6 +151,7 @@
 				6040B35E286F4CDD00C62742 /* AudiobookListView.swift */,
 				60B9A4F02870693D00ADE68B /* LoginView.swift */,
 				60FFEF132874923E00F74268 /* CreateAccountView.swift */,
+				6075344F2878943D000FDBF8 /* EditProfileView.swift */,
 				6040B362286F546300C62742 /* HomeView.swift */,
 				602F7CCE2846816C00B2B742 /* BookDetailView.swift */,
 				602A78A72848FC9700048584 /* FavoritesView.swift */,
@@ -289,7 +286,6 @@
 				60B9A4F12870693D00ADE68B /* LoginView.swift in Sources */,
 				60B9A4ED2870537600ADE68B /* ProfileView.swift in Sources */,
 				6040B35F286F4CDD00C62742 /* AudiobookListView.swift in Sources */,
-				6075344E287892DC000FDBF8 /* ToDo.swift in Sources */,
 				6040B36C286F5FB100C62742 /* TabBarItemsPreferenceKey.swift in Sources */,
 				602A78A82848FC9700048584 /* FavoritesView.swift in Sources */,
 				60FFEF142874923E00F74268 /* CreateAccountView.swift in Sources */,

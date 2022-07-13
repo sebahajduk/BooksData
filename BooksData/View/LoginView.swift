@@ -16,17 +16,20 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             VStack {
-                
                 Image("logo")
                     .resizable()
                     .frame(width: 200, height: 200)
+                    .accessibilityElement()
+                
                 Spacer()
+                
                 TextField("Login", text: $login)
                     .padding(10)
                     .background(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 50))
                     .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                     .padding(.top, 20)
+                    .accessibilityLabel("Enter login")
                 
                 TextField("Password", text: $password)
                     .padding(10)
@@ -34,6 +37,7 @@ struct LoginView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 50))
                     .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                     .padding(.top, 20)
+                    .accessibilityLabel("Enter password")
                 
                 HStack() {
                     Spacer()

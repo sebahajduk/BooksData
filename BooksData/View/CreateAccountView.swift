@@ -22,6 +22,8 @@ struct CreateAccountView: View {
             Image("logo")
                 .resizable()
                 .frame(width: 200, height: 200)
+                .accessibilityElement()
+            
             Spacer()
             
             TextField("Name", text: $name)
@@ -30,6 +32,7 @@ struct CreateAccountView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 50))
                 .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                 .padding(.top, 20)
+                .accessibilityLabel("Name")
             
             TextField("Login", text: $email)
                 .padding(10)
@@ -37,6 +40,7 @@ struct CreateAccountView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 50))
                 .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                 .padding(.top, 20)
+                .accessibilityLabel("Login")
             
             SecureField("Password", text: $password)
                 .padding(10)
@@ -44,6 +48,7 @@ struct CreateAccountView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 50))
                 .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                 .padding(.top, 20)
+                .accessibilityLabel("Password")
             
             SecureField("Repeat password", text: $repeatPassword)
                 .padding(10)
@@ -51,6 +56,7 @@ struct CreateAccountView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 50))
                 .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                 .padding(.top, 20)
+                .accessibilityLabel("Repeat password")
                 
                 
             HStack() {
