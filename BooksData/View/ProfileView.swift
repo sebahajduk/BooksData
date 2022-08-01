@@ -57,6 +57,7 @@ struct ProfileView: View {
                     Text("Edit profile")
                         .padding(8)
                         .frame(maxWidth: .infinity)
+                        .foregroundColor(c.mainGreen)
                         .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .padding(.horizontal)
@@ -70,6 +71,7 @@ struct ProfileView: View {
                 } label: {
                     Text("Logout")
                         .padding(8)
+                        .foregroundColor(c.mainGreen)
                     
                 }
                 .frame(maxWidth: .infinity)

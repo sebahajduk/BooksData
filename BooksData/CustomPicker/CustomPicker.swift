@@ -11,11 +11,12 @@ struct CustomPicker: View {
     let c = Const()
     
     @Binding var selection: String
-    @State var picker1: String
-    @State var picker2: String
+    @State var picker1: String = ""
+    @State var picker2: String = ""
     
     var body: some View {
-        customPicker(picker1: picker1, picker2: picker2, selection: &selection)
+            customPicker(picker1: picker1, picker2: picker2, selection: &selection)
+            
     }
 }
 

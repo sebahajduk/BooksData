@@ -24,19 +24,11 @@ struct LoginView: View {
                 Spacer()
                 
                 TextField("Login", text: $login)
-                    .padding(10)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                    .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
-                    .padding(.top, 20)
+                    .bdTextField()
                     .accessibilityLabel("Enter login")
                 
                 TextField("Password", text: $password)
-                    .padding(10)
-                    .background(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 50))
-                    .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
-                    .padding(.top, 20)
+                    .bdTextField()
                     .accessibilityLabel("Enter password")
                 
                 HStack() {

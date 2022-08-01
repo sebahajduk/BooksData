@@ -86,24 +86,26 @@ extension FirebaseDataManager {
     
     // MARK: User's data management
     
+    
+    
     func getCurrentUserData() {
         guard let currentUser = currentUser else { return }
-        let docRef = db.collection("users").document("\(currentUser.uid)")
+        let docRef = self.db.collection("users").document("\(currentUser.uid)")
         DispatchQueue.main.async {
             docRef.getDocument(as: User.self) { result in
                 switch result {
                 case .success(let userData):
                     self.user = userData
+                    
                 case .failure(let error):
                     print("Error: \(error)")
                 }
             }
             
-            self.getUserBoughtBooks()
-            self.getUserFavoriteBooks()
-            self.retrievePhoto()
-        }
-        
+       }
+//        self.getUserBoughtBooks()
+//        self.getUserFavoriteBooks()
+//        self.retrievePhoto()
     }
     
         
@@ -212,23 +214,28 @@ extension FirebaseDataManager {
         self.boughtBooks = []
         guard let currentUser = currentUser else { return }
         let bbRef = db.collection("users").document("\(currentUser.uid)").collection("boughtBooks")
+        
         bbRef.getDocuments() { querySnapshot, error in
             if let error = error {
                 print("Error getting documents: \(error)")
             } else {
+                
                 for document in querySnapshot!.documents {
                     bbRef.document(document.documentID).getDocument(as: Book.self) { result in
                         switch result {
                         case .success(let book):
                             self.boughtBooks.append(book)
-                            print(book.title)
+                            
                         case .failure(let error):
                             print("Error adding book to array: \(error)")
                         }
                     }
                 }
+                
             }
+            
         }
+        
     }
     
     private func getUserFavoriteBooks() {
@@ -253,7 +260,4 @@ extension FirebaseDataManager {
             }
         }
     }
-    
-    
-    
 }
