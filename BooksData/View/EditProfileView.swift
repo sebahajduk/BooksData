@@ -9,7 +9,8 @@ import SwiftUI
 
 struct EditProfileView: View {
     let c = Const()
-    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
+    
+    @Environment(\.firebaseDataManager) var firebaseDataManager
     @State private var name: String
     @State private var bio: String
     @State private var showingImagePicker = false
@@ -22,8 +23,7 @@ struct EditProfileView: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
+        VStack {
                 ZStack(alignment: .center) {
                     Circle()
                         .foregroundColor(.gray.opacity(0.7))
@@ -103,7 +103,8 @@ struct EditProfileView: View {
             .sheet(isPresented: $showingImagePicker) {
                 ImagePicker(image: $inputImage)
             }
-        }
+            
+        
     }
     
     func loadImage() {
@@ -120,5 +121,6 @@ struct EditProfileView: View {
 struct EditProfileView_Previews: PreviewProvider {
     static var previews: some View {
         EditProfileView(name: "Example Name", bio: "I am a big, big fan of books! Love them since I was child!")
+            .environmentObject(FirebaseDataManager())
     }
 }

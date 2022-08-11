@@ -6,18 +6,18 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct BookDetailView: View {
     var book: Book
     @State var isAudiobook: String
     let c = Const()
     
-    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
+    @Environment(\.firebaseDataManager) var firebaseDataManager
     @State private var disabledFavoriteButton = false
     @State private var disabledBuyButton = false
    
     var body: some View {
-        
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 5) {
@@ -77,7 +77,6 @@ struct BookDetailView: View {
                         Button("Add to favorites") {
                             firebaseDataManager.userAddToFavBook(book: book)
                             disabledFavoriteButton = true
-
                         }
                         .frame(width: 150, height: 30)
                         .foregroundColor(disabledFavoriteButton ? c.mainGreen.opacity(0.3) : c.mainGreen)
@@ -122,7 +121,7 @@ struct BookDetailView: View {
         
     }
     
-    init(book: Book, isAudiobook: String) {
+    init(book: Book, isAudiobook: String, firebaseDataManager: FirebaseDataManager) {
         self.book = book
         self.isAudiobook = isAudiobook
     }
@@ -136,12 +135,24 @@ struct BookDetailView: View {
         }
     }
     
+    func userBoughtBook(book: Book) {
+        let db = Firestore.firestore()
+        if firebaseDataManager.currentUser != nil {
+            do {
+                try db.collection("users").document("\(self.firebaseDataManager.currentUser!.uid)").collection("boughtBooks").document("\(book.imageLink)").setData(from: book)
+                self.firebaseDataManager.boughtBooks.append(book)
+            } catch let error {
+                print("Error adding book to Bought: \(error)")
+            }
+        }
+    }
+    
     
 }
 
 struct BookDetailView_Previews: PreviewProvider {
     static let books: [Book] = Bundle.main.decode("books.json")
     static var previews: some View {
-        BookDetailView(book: books[0], isAudiobook: "Book")
+        BookDetailView(book: books[0], isAudiobook: "Book", firebaseDataManager: FirebaseDataManager())
     }
 }

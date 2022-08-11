@@ -10,7 +10,6 @@ import SwiftUI
 
 extension ContentView {
     @MainActor class ViewModel: ObservableObject {
-        @Published var selection: String = "home"
         @Published var tabSelection: TabBarItem = .house
     }
 }

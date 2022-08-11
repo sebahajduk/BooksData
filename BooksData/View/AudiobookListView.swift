@@ -15,6 +15,8 @@ struct AudiobookListView: View {
         GridItem(.fixed(80))
     ]
     
+    @Environment(\.firebaseDataManager) var firebaseDataManager
+    
     var body: some View {
         
         VStack(spacing: 30) {
@@ -29,7 +31,7 @@ struct AudiobookListView: View {
                     ForEach(c.books.prefix(15)) { book in
                         HStack(spacing: 20) {
                             NavigationLink {
-                                BookDetailView(book: book, isAudiobook: "Audiobook")
+                                BookDetailView(book: book, isAudiobook: "Audiobook", firebaseDataManager: firebaseDataManager)
                             } label: {
                                 Image(book.imageLink)
                                     .resizable()
@@ -67,5 +69,6 @@ struct AudiobookListView: View {
 struct AudiobookListView_Previews: PreviewProvider {
     static var previews: some View {
         AudiobookListView()
+            .environmentObject(FirebaseDataManager())
     }
 }

@@ -10,32 +10,38 @@
 //  This app is created for learning purposes.
 
 import SwiftUI
-import FirebaseAuth
 
 struct ContentView: View {
-    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
-    @ObservedObject var vm = ViewModel()
-     
+    @StateObject var vm = ViewModel()
+    @Environment(\.firebaseDataManager) var firebaseDataManager
+    @State var isViewSelected: Bool = false
+    @State var tabSelection: TabBarItem = .house
+    
     var body: some View {
-        if firebaseDataManager.currentUser != nil {
-            CustomTabBarContainerView(selection: $vm.tabSelection) {
-                HomeView()
-                    .tabBarItem(tab: .house, selection: $vm.tabSelection)
-                
-                FavoritesView()
-                    .tabBarItem(tab: .favorite, selection: $vm.tabSelection)
-                
-                ProfileView()
-                    .tabBarItem(tab: .profile, selection: $vm.tabSelection)
-                
-            }
-            .environmentObject(firebaseDataManager)
+        NavigationView {
+        switch firebaseDataManager.currentUser != nil {
+        case true:
             
-        } else {
+                CustomTabBarContainerView(selection: $tabSelection) {
+                    
+                    HomeView()
+                        .tabBarItem(tab: .house, selection: $tabSelection)
+                        
+                    FavoritesView()
+                        .tabBarItem(tab: .favorite, selection: $tabSelection)
+                        
+                    ProfileView()
+                        .tabBarItem(tab: .profile, selection: $tabSelection)
+                }
+                .navigationBarHidden(true)
+                
+        case false :
             LoginView()
+        }
         }
     }
 }
+
 struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {

@@ -11,29 +11,18 @@ struct FavoritesView: View {
     
     let c = Const()
     
-    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
-    
+    @Environment(\.firebaseDataManager) var firebaseDataManager
     @State var selection = "Bought"
+    @StateObject var vm = FavoritesViewModel()
+    
     
     var body: some View {
-        NavigationView {
             ScrollView(showsIndicators: false) {
                 VStack {
                     CustomPicker(selection: $selection, picker1: "Bought", picker2: "Favorites")
                         .accessibilityAddTraits(.isButton)
-                    
-                    switch selection {
-                    case "Bought":
-                        Text("BOUGHT BOOKS")
-                            .font(.title3)
-                            .bold()
-                            .padding(.vertical, 20)
-                            .padding(.bottom, 10)
-                            .foregroundColor(c.mainGreen)
                         
-                        ForEach(firebaseDataManager.boughtBooks.count > 0 ? firebaseDataManager.boughtBooks : []) { book in
-                            boughtList(book: book)
-                        }
+                    switch selection {
                     case "Favorites":
                         Text("FAVORITES BOOKS")
                             .font(.title3)
@@ -46,16 +35,26 @@ struct FavoritesView: View {
                             favoritesList(book: book)
                         }
                     default:
-                        Text("")
+                        Text("BOUGHT BOOKS")
+                            .font(.title3)
+                            .bold()
+                            .padding(.vertical, 20)
+                            .padding(.bottom, 10)
+                            .foregroundColor(c.mainGreen)
+                        
+                        ForEach(firebaseDataManager.boughtBooks.count > 0 ? firebaseDataManager.boughtBooks : []) { book in
+                            boughtList(book: book)
+                        }
+                        .onAppear {
+                            print(firebaseDataManager.boughtBooks)
+                        }
                     }
                     
                 }
             }
             .padding()
             .background(c.backgroundPink)
-            .navigationBarHidden(true)
         }
-    }
 }
 
 struct FavoritesView_Previews: PreviewProvider {
@@ -68,7 +67,7 @@ extension FavoritesView {
     func favoritesList(book: Book) -> some View {
         HStack(spacing: 20) {
             NavigationLink {
-                BookDetailView(book: book, isAudiobook: "Book")
+                BookDetailView(book: book, isAudiobook: "Book", firebaseDataManager: firebaseDataManager)
             } label: {
                 Image(book.imageLink)
                     .resizable()
@@ -90,23 +89,23 @@ extension FavoritesView {
             .buttonStyle(PlainButtonStyle())
             Spacer()
             Button(action: {
-                withAnimation {
-                    firebaseDataManager.deleteFavBook(book: book)
+                DispatchQueue.main.async {
+                    vm.deleteFavBook(book: book, firebaseDataManager: firebaseDataManager)
                 }
-                
             }, label: {
                 Image(systemName: "x.circle.fill")
                     .accessibilityLabel("Delete")
                     .accessibilityHint("Delete book.")
             })
             .padding(.horizontal, 20)
+            .animation(.default, value: firebaseDataManager.favoriteBooks.count)
         }
     }
     
     func boughtList(book: Book) -> some View {
         HStack(spacing: 20) {
             NavigationLink {
-                BookDetailView(book: book, isAudiobook: "Book")
+                BookDetailView(book: book, isAudiobook: "Book", firebaseDataManager: firebaseDataManager)
             } label: {
                 Image(book.imageLink)
                     .resizable()

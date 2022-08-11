@@ -9,8 +9,7 @@ import SwiftUI
 
 struct CreateAccountView: View {
     let c = Const()
-    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
-    
+    @Environment(\.firebaseDataManager) var firebaseDataManager
     @State private var name = ""
     @State private var email = ""
     @State private var password = ""
@@ -80,5 +79,6 @@ struct CreateAccountView: View {
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
         CreateAccountView()
+            .environmentObject(FirebaseDataManager())
     }
 }

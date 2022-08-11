@@ -10,6 +10,7 @@ import SwiftUI
 
 struct NewBooksListView: View {
     let c = Const()
+    @Environment(\.firebaseDataManager) var firebaseDataManager
     
     var body: some View {
         
@@ -24,7 +25,7 @@ struct NewBooksListView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
                     ForEach(c.books.prefix(15)) { book in
-                        NavigationLink(destination: BookDetailView(book: book, isAudiobook: "Book")) {
+                        NavigationLink(destination: BookDetailView(book: book, isAudiobook: "Book", firebaseDataManager: firebaseDataManager)) {
                             VStack {
                                 Image(book.imageLink)
                                     .resizable()
@@ -34,6 +35,7 @@ struct NewBooksListView: View {
                                     .padding(5)
                                     .shadow(color: .black.opacity(0.3), radius: 5, x: 3, y: 3)
                                     .accessibilityHidden(true)
+                                    
                                 
                                 Text(book.title)
                                     .font(.subheadline)
@@ -60,6 +62,7 @@ struct NewBooksListView: View {
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         NewBooksListView()
+            .environmentObject(FirebaseDataManager())
     }
 }
 

@@ -13,9 +13,8 @@ import FirebaseAuth
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-
-    return true
+      FirebaseApp.configure()
+      return true
   }
 }
 
@@ -23,12 +22,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct BooksDataApp: App {
     // Registering app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var firebaseDataManager = FirebaseDataManager()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(firebaseDataManager)
         }
     }
 }

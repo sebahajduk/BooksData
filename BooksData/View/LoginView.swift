@@ -11,7 +11,7 @@ struct LoginView: View {
     let c = Const()
     @State private var login = ""
     @State private var password = ""
-    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
+    @Environment(\.firebaseDataManager) var firebaseDataManager
     
     var body: some View {
         NavigationView {
@@ -67,5 +67,6 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+            .environmentObject(FirebaseDataManager())
     }
 }

@@ -10,10 +10,9 @@ import SwiftUI
 struct ProfileView: View {
     let c = Const()
     
-    @EnvironmentObject var firebaseDataManager: FirebaseDataManager
+    @Environment(\.firebaseDataManager) var firebaseDataManager
     
     var body: some View {
-        NavigationView {
             VStack {
                 ZStack {
                     Circle()
@@ -65,7 +64,6 @@ struct ProfileView: View {
                         .accessibilityAddTraits(.isButton)
                 }
                 
-                
                 Button  {
                     firebaseDataManager.userSignOut()
                 } label: {
@@ -80,15 +78,11 @@ struct ProfileView: View {
                 .padding(.horizontal)
                 .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                 
-                
                 Spacer()
             }
             .background(c.backgroundPink)
-            .onAppear {
-                firebaseDataManager.getCurrentUserData()
-            }
         }
-    }
+    
 }
 
 struct ProfileView_Previews: PreviewProvider {
