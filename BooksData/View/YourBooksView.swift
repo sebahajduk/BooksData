@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-struct FavoritesView: View {
-    
+struct YourBooksView: View {
+    @Environment(\.firebaseDataManager) var firebaseDataManager
+
     let c = Const()
     
-    @Environment(\.firebaseDataManager) var firebaseDataManager
     @State var selection = "Bought"
-    @StateObject var vm = FavoritesViewModel()
-    
+    @StateObject var vm = YourBooksViewModel()
     
     var body: some View {
             ScrollView(showsIndicators: false) {
@@ -31,7 +30,7 @@ struct FavoritesView: View {
                             .padding(.bottom, 10)
                             .foregroundColor(c.mainGreen)
                         
-                        ForEach(firebaseDataManager.favoriteBooks.count > 0 ? firebaseDataManager.favoriteBooks : []) { book in
+                        ForEach(vm.favoriteBooks.count > 0 ? vm.favoriteBooks : []) { book in
                             favoritesList(book: book)
                         }
                     default:
@@ -42,32 +41,36 @@ struct FavoritesView: View {
                             .padding(.bottom, 10)
                             .foregroundColor(c.mainGreen)
                         
-                        ForEach(firebaseDataManager.boughtBooks.count > 0 ? firebaseDataManager.boughtBooks : []) { book in
+                        ForEach(vm.boughtBooks.count > 0 ? vm.boughtBooks : []) { book in
                             boughtList(book: book)
-                        }
-                        .onAppear {
-                            print(firebaseDataManager.boughtBooks)
                         }
                     }
                     
                 }
+                .onReceive(firebaseDataManager.$favoriteBooks) {
+                    vm.favoriteBooks = $0
+                }
+                .onReceive(firebaseDataManager.$boughtBooks) {
+                    vm.boughtBooks = $0
+                }
             }
             .padding()
+            .padding(.top, 40)
             .background(c.backgroundPink)
         }
 }
 
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
-        FavoritesView()
+        YourBooksView()
     }
 }
 
-extension FavoritesView {
+extension YourBooksView {
     func favoritesList(book: Book) -> some View {
         HStack(spacing: 20) {
             NavigationLink {
-                BookDetailView(book: book, isAudiobook: "Book", firebaseDataManager: firebaseDataManager)
+                BookDetailView(book: book, isAudiobook: "Book")
             } label: {
                 Image(book.imageLink)
                     .resizable()
@@ -89,23 +92,20 @@ extension FavoritesView {
             .buttonStyle(PlainButtonStyle())
             Spacer()
             Button(action: {
-                DispatchQueue.main.async {
-                    vm.deleteFavBook(book: book, firebaseDataManager: firebaseDataManager)
-                }
+                vm.delete(book: book)
             }, label: {
                 Image(systemName: "x.circle.fill")
                     .accessibilityLabel("Delete")
                     .accessibilityHint("Delete book.")
             })
             .padding(.horizontal, 20)
-            .animation(.default, value: firebaseDataManager.favoriteBooks.count)
         }
     }
     
     func boughtList(book: Book) -> some View {
         HStack(spacing: 20) {
             NavigationLink {
-                BookDetailView(book: book, isAudiobook: "Book", firebaseDataManager: firebaseDataManager)
+                BookDetailView(book: book, isAudiobook: "Book")
             } label: {
                 Image(book.imageLink)
                     .resizable()

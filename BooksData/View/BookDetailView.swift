@@ -10,13 +10,11 @@ import FirebaseFirestore
 
 struct BookDetailView: View {
     var book: Book
-    @State var isAudiobook: String
     let c = Const()
     
-    @Environment(\.firebaseDataManager) var firebaseDataManager
-    @State private var disabledFavoriteButton = false
-    @State private var disabledBuyButton = false
-   
+    @StateObject var vm = BookDetailViewModel()
+    @State var isAudiobook: String
+    
     var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
@@ -60,7 +58,7 @@ struct BookDetailView: View {
                     
                     Group {
                         Text(book.title)
-                            .font(.largeTitle)
+                            .font(.title)
                             .bold()
                             .foregroundColor(c.mainGreen)
                             .padding(.top, 20)
@@ -75,29 +73,26 @@ struct BookDetailView: View {
                     HStack(spacing: 20) {
                         
                         Button("Add to favorites") {
-                            firebaseDataManager.userAddToFavBook(book: book)
-                            disabledFavoriteButton = true
+                            vm.addToFav(book: book)
                         }
                         .frame(width: 150, height: 30)
-                        .foregroundColor(disabledFavoriteButton ? c.mainGreen.opacity(0.3) : c.mainGreen)
+                        .foregroundColor(vm.disabledFavoriteButton ? c.mainGreen.opacity(0.3) : c.mainGreen)
                         .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                         .padding(.top, 20)
-                        .disabled(disabledFavoriteButton)
+                        .disabled(vm.disabledFavoriteButton)
                         
                         Button("Buy now") {
-                            firebaseDataManager.userBoughtBook(book: book)
-                            disabledFavoriteButton = true
-                            disabledBuyButton = true
+                            vm.buyBook(book: book)
                         }
                         .frame(width: 150, height: 30)
                         .foregroundColor(.white)
-                        .background(disabledBuyButton ? c.mainGreen.opacity(0.3) : c.mainGreen)
+                        .background(vm.disabledBuyButton ? c.mainGreen.opacity(0.3) : c.mainGreen)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(color: c.mainPink.opacity(0.4), radius: 5, x: 0, y: 5)
                         .padding(.top, 20)
-                        .disabled(disabledBuyButton)
+                        .disabled(vm.disabledBuyButton)
                     }
                     .frame(maxWidth: .infinity)
                     
@@ -111,48 +106,24 @@ struct BookDetailView: View {
                 }
             }
             .padding()
+            .padding(.bottom, 100)
         }
         .background(c.backgroundPink)
         .ignoresSafeArea(.all)
         .onAppear {
-            disableButtons()
+            vm.disableButtons(book: book)
         }
-        
-        
     }
     
-    init(book: Book, isAudiobook: String, firebaseDataManager: FirebaseDataManager) {
+    init(book: Book, isAudiobook: String) {
         self.book = book
         self.isAudiobook = isAudiobook
     }
-    
-    private func disableButtons() {
-        if firebaseDataManager.favoriteBooks.contains(book) {
-            disabledFavoriteButton = true
-        } else if firebaseDataManager.boughtBooks.contains(book){
-            disabledFavoriteButton = true
-            disabledBuyButton = true
-        }
-    }
-    
-    func userBoughtBook(book: Book) {
-        let db = Firestore.firestore()
-        if firebaseDataManager.currentUser != nil {
-            do {
-                try db.collection("users").document("\(self.firebaseDataManager.currentUser!.uid)").collection("boughtBooks").document("\(book.imageLink)").setData(from: book)
-                self.firebaseDataManager.boughtBooks.append(book)
-            } catch let error {
-                print("Error adding book to Bought: \(error)")
-            }
-        }
-    }
-    
-    
 }
 
 struct BookDetailView_Previews: PreviewProvider {
     static let books: [Book] = Bundle.main.decode("books.json")
     static var previews: some View {
-        BookDetailView(book: books[0], isAudiobook: "Book", firebaseDataManager: FirebaseDataManager())
+        BookDetailView(book: books[0], isAudiobook: "Book")
     }
 }

@@ -10,6 +10,9 @@ import SwiftUI
 
 extension ContentView {
     @MainActor class ViewModel: ObservableObject {
+        @Environment(\.firebaseDataManager) var firebaseDataManager
+        
         @Published var tabSelection: TabBarItem = .house
+        @Published var userLoggedIn = false
     }
 }

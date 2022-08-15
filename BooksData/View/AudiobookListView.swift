@@ -10,9 +10,9 @@ import SwiftUI
 struct AudiobookListView: View {
     let c = Const()
     let rows = [
-        GridItem(.fixed(80)),
-        GridItem(.fixed(80)),
-        GridItem(.fixed(80))
+        GridItem(.fixed(100)),
+        GridItem(.fixed(100)),
+        GridItem(.fixed(100))
     ]
     
     @Environment(\.firebaseDataManager) var firebaseDataManager
@@ -31,11 +31,11 @@ struct AudiobookListView: View {
                     ForEach(c.books.prefix(15)) { book in
                         HStack(spacing: 20) {
                             NavigationLink {
-                                BookDetailView(book: book, isAudiobook: "Audiobook", firebaseDataManager: firebaseDataManager)
+                                BookDetailView(book: book, isAudiobook: "Audiobook")
                             } label: {
                                 Image(book.imageLink)
                                     .resizable()
-                                    .frame(width: 80, height: 80)
+                                    .frame(width: 63, height: 100)
                                     .scaledToFill()
                                     .accessibilityHidden(true)
                                     
@@ -69,6 +69,5 @@ struct AudiobookListView: View {
 struct AudiobookListView_Previews: PreviewProvider {
     static var previews: some View {
         AudiobookListView()
-            .environmentObject(FirebaseDataManager())
     }
 }

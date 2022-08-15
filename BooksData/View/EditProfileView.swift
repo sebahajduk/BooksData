@@ -8,19 +8,12 @@
 import SwiftUI
 
 struct EditProfileView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     let c = Const()
     
-    @Environment(\.firebaseDataManager) var firebaseDataManager
-    @State private var name: String
-    @State private var bio: String
-    @State private var showingImagePicker = false
+    @StateObject var vm = EditProfileViewModel()
     @State private var inputImage: UIImage?
-    @State private var image: Image?
-    
-    init(name: String, bio: String) {
-        self.name = name
-        self.bio = bio
-    }
     
     var body: some View {
         VStack {
@@ -33,13 +26,13 @@ struct EditProfileView: View {
                         .foregroundColor(.white)
                         .font(.system(size: 70))
                     
-                    image?
+                    vm.image?
                         .resizable()
                         .frame(width: 150, height: 150)
                         .clipShape(Circle())
                 }
                 .onTapGesture {
-                    showingImagePicker = true
+                    vm.showingImagePicker = true
                 }
                 .accessibilityElement()
                 .accessibilityLabel("Edit your photo")
@@ -56,7 +49,7 @@ struct EditProfileView: View {
                         Spacer()
                     }
                     
-                    TextField("", text: $name)
+                    TextField("", text: $vm.name)
                         .padding(10)
                         .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 50))
@@ -70,7 +63,7 @@ struct EditProfileView: View {
                         Spacer()
                     }
                     
-                    TextEditor(text: $bio)
+                    TextEditor(text: $vm.bio)
                         .padding(10)
                         .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -80,7 +73,8 @@ struct EditProfileView: View {
                     HStack() {
                         Spacer()
                         Button {
-                            firebaseDataManager.updateProfile(newName: name, newBio: bio, image: inputImage)
+                            vm.editUser(inputImage: inputImage)
+                            presentationMode.wrappedValue.dismiss()
                         } label: {
                             Text("UPDATE")
                                 .padding(8)
@@ -99,28 +93,21 @@ struct EditProfileView: View {
             }
             .padding()
             .background(c.backgroundPink)
-            .onChange(of: inputImage, perform: { _ in loadImage() })
-            .sheet(isPresented: $showingImagePicker) {
+            .onChange(of: inputImage, perform: { _ in
+                vm.loadImage(inputImage: inputImage)
+            })
+            .sheet(isPresented: $vm.showingImagePicker) {
                 ImagePicker(image: $inputImage)
             }
-            
+            .onAppear {
+                vm.prepareView()
+            }
         
     }
-    
-    func loadImage() {
-        guard let inputImage = inputImage else {
-            return
-        }
-        image = Image(uiImage: inputImage)
-    }
-    
-    
-    
 }
 
 struct EditProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        EditProfileView(name: "Example Name", bio: "I am a big, big fan of books! Love them since I was child!")
-            .environmentObject(FirebaseDataManager())
+        EditProfileView()
     }
 }

@@ -47,22 +47,7 @@ final class FavoritesViewModel: ObservableObject {
     }
     
     func deleteFavBook(book: Book, firebaseDataManager: FirebaseDataManager) {
-        print("deleting...")
-        let db = Firestore.firestore()
-        guard let index = firebaseDataManager.favoriteBooks.firstIndex(of: book) else { return }
-        firebaseDataManager.favoriteBooks.remove(at: index)
-        
-        if firebaseDataManager.currentUser != nil {
-            
-            db.collection("users").document("\(firebaseDataManager.currentUser!.uid)").collection("favoriteBooks").document("\(book.imageLink)").delete() { error in
-                if let error = error {
-                    print("There was an error deleting this book: \(error)")
-                } else {
-                    let index = self.favoriteList.firstIndex(of: book)
-                    self.favoriteList.remove(at: index!)
-                }
-            }
-        }
+        firebaseDataManager.deleteFavBook(book: book)
     }
 }
 

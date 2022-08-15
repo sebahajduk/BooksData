@@ -9,12 +9,8 @@ import SwiftUI
 
 struct CreateAccountView: View {
     let c = Const()
-    @Environment(\.firebaseDataManager) var firebaseDataManager
-    @State private var name = ""
-    @State private var email = ""
-    @State private var password = ""
-    @State private var repeatPassword = ""
     
+    @StateObject var vm = CreateAccountViewModel()
     
     var body: some View {
         VStack {
@@ -25,20 +21,20 @@ struct CreateAccountView: View {
             
             Spacer()
             
-            TextField("Name", text: $name)
+            TextField("Name", text: $vm.name)
                 .bdTextField()
                 .accessibilityLabel("Name")
             
-            TextField("Login", text: $email)
+            TextField("Email", text: $vm.email)
                 .bdTextField()
-                .accessibilityLabel("Login")
+                .accessibilityLabel("Email")
                 .keyboardType(.emailAddress)
             
-            SecureField("Password", text: $password)
+            SecureField("Password", text: $vm.password)
                 .bdTextField()
                 .accessibilityLabel("Password")
             
-            SecureField("Repeat password", text: $repeatPassword)
+            SecureField("Repeat password", text: $vm.repeatPassword)
                 .bdTextField()
                 .accessibilityLabel("Repeat password")
                 
@@ -46,7 +42,7 @@ struct CreateAccountView: View {
             HStack() {
                 Spacer()
                 Button {
-                    firebaseDataManager.createAccount(email: email, password: password, name: name)
+                    vm.createAccount()
                 } label: {
                     Text("SIGN UP")
                         .padding(8)
@@ -57,8 +53,8 @@ struct CreateAccountView: View {
                 .background(c.mainGreen)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .padding([.top, .trailing])
-                .disabled(disableSignUpButton())
-                .opacity(disableSignUpButton() ? 0.3 : 1.0)
+                .disabled(vm.disableSignUpButton())
+                .opacity(vm.disableSignUpButton() ? 0.3 : 1.0)
             }
             Spacer()
         }
@@ -66,19 +62,10 @@ struct CreateAccountView: View {
         .background(c.backgroundPink)
         
     }
-    
-    func disableSignUpButton() -> Bool {
-        if email.count < 5 || password.count < 6 || password != repeatPassword {
-            return true
-        } else {
-            return false
-        }
-    }
 }
 
 struct CreateAccountView_Previews: PreviewProvider {
     static var previews: some View {
         CreateAccountView()
-            .environmentObject(FirebaseDataManager())
     }
 }

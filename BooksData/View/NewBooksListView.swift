@@ -25,7 +25,7 @@ struct NewBooksListView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
                     ForEach(c.books.prefix(15)) { book in
-                        NavigationLink(destination: BookDetailView(book: book, isAudiobook: "Book", firebaseDataManager: firebaseDataManager)) {
+                        NavigationLink(destination: BookDetailView(book: book, isAudiobook: "Book")) {
                             VStack {
                                 Image(book.imageLink)
                                     .resizable()
@@ -62,7 +62,6 @@ struct NewBooksListView: View {
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         NewBooksListView()
-            .environmentObject(FirebaseDataManager())
     }
 }
 

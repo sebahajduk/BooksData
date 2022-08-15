@@ -12,7 +12,6 @@ struct HomeView: View {
     @State private var searching = ""
     @State private var showSearching = false
     
-    @Environment(\.firebaseDataManager) var firebaseDataManager
     let c = Const()
     
     var body: some View {
@@ -42,7 +41,7 @@ struct HomeView: View {
                             
                         
                         NewBooksListView()
-                            .environmentObject(firebaseDataManager)
+                            
                         Divider()
                             .padding()
                         AudiobookListView()

@@ -41,7 +41,7 @@ struct ImagePicker: UIViewControllerRepresentable {
 
             if provider.canLoadObject(ofClass: UIImage.self) {
                 provider.loadObject(ofClass: UIImage.self) { image, _ in
-                    self.parent.image = image as? UIImage
+                        self.parent.image = image as? UIImage
                 }
             }
         }

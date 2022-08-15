@@ -23,7 +23,7 @@ extension EnvironmentValues {
     }
 }
 
-class FirebaseDataManager: ObservableObject {
+class FirebaseDataManager {
         
     @Published var currentUser = Auth.auth().currentUser
     @Published var user: User = User(id: "", name: "", email: "", photoURL: "", bio: "")
@@ -50,6 +50,7 @@ extension FirebaseDataManager {
             }
             self.currentUser = Auth.auth().currentUser
             self.getCurrentUserData()
+            self.retrievePhoto()
         }
     }
     
@@ -87,8 +88,8 @@ extension FirebaseDataManager {
                     print("There was an error fetching user data: \(String(describing: error?.localizedDescription))")
                     return
                 }
-                
-                self.getCurrentUserData()
+                    self.getCurrentUserData()
+                    self.retrievePhoto()
             }
     }
     
@@ -161,7 +162,6 @@ extension FirebaseDataManager {
                 switch result {
                 case .success(let userData):
                     self.user = userData
-                    self.retrievePhoto()
                 case .failure(let error):
                     print("Error: \(error)")
                 }
@@ -261,9 +261,11 @@ extension FirebaseDataManager {
                 db.collection("users").document("\(currentUser.uid)").updateData([
                     "photoURL": path
                 ])
+                self.retrievePhoto()
             }
-            
         }
+            
+        
     }
     
     private func retrievePhoto() {
@@ -278,6 +280,7 @@ extension FirebaseDataManager {
                     self.image = UIImage(data: data!)
                     guard let image = self.image else { return }
                     print("Received image")
+                    self.myImage = nil
                     self.myImage = Image(uiImage: image)
                 }
             }
@@ -327,9 +330,7 @@ extension FirebaseDataManager {
                         fbRef.document(document.documentID).getDocument(as: Book.self) { result in
                             switch result {
                             case .success(let book):
-                                self.favoriteBooks.append(book)
-                                FavoritesViewModel.shared.favoriteList.append(book)
-                                
+                                self.favoriteBooks.append(book)                                
                             case .failure(let error):
                                 print("Error adding book to array: \(error)")
                             }

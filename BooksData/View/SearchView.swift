@@ -23,7 +23,7 @@ struct SearchView: View {
                 ScrollView {
                     VStack(alignment: .leading) {
                         ForEach(searchResults, id: \.id) { book in
-                            NavigationLink(destination: BookDetailView(book: book, isAudiobook: "Book", firebaseDataManager: firebaseDataManager)) {
+                            NavigationLink(destination: BookDetailView(book: book, isAudiobook: "Book")) {
                                 HStack{
                                     Image(book.imageLink)
                                         .resizable()
@@ -45,7 +45,6 @@ struct SearchView: View {
                                     Spacer()
                                 }
                             }
-                            .isDetailLink(false)
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
@@ -62,7 +61,8 @@ struct SearchView: View {
         if searchText.isEmpty {
             return c.books
         } else {
-            return c.books.filter { $0.title.contains(searchText) || $0.author.contains(searchText)}
+            let searchTextLowercased = searchText.lowercased()
+            return c.books.filter { $0.title.lowercased().contains(searchTextLowercased) || $0.author.lowercased().contains(searchTextLowercased)}
         }
     }
     

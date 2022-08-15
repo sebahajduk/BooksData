@@ -9,9 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     let c = Const()
-    @State private var login = ""
-    @State private var password = ""
-    @Environment(\.firebaseDataManager) var firebaseDataManager
+    @StateObject var vm = LoginViewModel()
     
     var body: some View {
         NavigationView {
@@ -23,18 +21,18 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                TextField("Login", text: $login)
+                TextField("Email", text: $vm.login)
                     .bdTextField()
                     .accessibilityLabel("Enter login")
                 
-                TextField("Password", text: $password)
+                SecureField("Password", text: $vm.password)
                     .bdTextField()
                     .accessibilityLabel("Enter password")
                 
                 HStack() {
                     Spacer()
                     Button {
-                        firebaseDataManager.signIn(login: login, password: password)
+                        vm.signIn()
                     } label: {
                         Text("SIGN IN")
                             .padding(8)
@@ -58,8 +56,8 @@ struct LoginView: View {
                 }
                 
             }
-            .padding()
-            .background(c.backgroundPink)
+                .padding()
+                .background(c.backgroundPink)
         }
     }
 }
@@ -67,6 +65,5 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
-            .environmentObject(FirebaseDataManager())
     }
 }

@@ -13,31 +13,34 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var vm = ViewModel()
-    @Environment(\.firebaseDataManager) var firebaseDataManager
-    @State var isViewSelected: Bool = false
-    @State var tabSelection: TabBarItem = .house
     
     var body: some View {
         NavigationView {
-        switch firebaseDataManager.currentUser != nil {
-        case true:
-            
-                CustomTabBarContainerView(selection: $tabSelection) {
+            switch vm.userLoggedIn {
+            case true:
+                CustomTabBarContainerView(selection: $vm.tabSelection) {
                     
                     HomeView()
-                        .tabBarItem(tab: .house, selection: $tabSelection)
-                        
-                    FavoritesView()
-                        .tabBarItem(tab: .favorite, selection: $tabSelection)
-                        
+                        .tabBarItem(tab: .house, selection: $vm.tabSelection)
+                    
+                    YourBooksView()
+                        .tabBarItem(tab: .favorite, selection: $vm.tabSelection)
+                    
                     ProfileView()
-                        .tabBarItem(tab: .profile, selection: $tabSelection)
+                        .tabBarItem(tab: .profile, selection: $vm.tabSelection)
                 }
                 .navigationBarHidden(true)
                 
-        case false :
-            LoginView()
+            case false :
+                LoginView()
+            }
         }
+        .onReceive(vm.firebaseDataManager.$currentUser) {
+            if $0 != nil {
+                vm.userLoggedIn = true
+            } else {
+                vm.userLoggedIn = false
+            }
         }
     }
 }
